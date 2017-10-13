@@ -44,7 +44,7 @@ $ touch build/<project>/source
 $ make ...
 ```
 
-The process is configured using variables that can be changed, the configs folder has a `defauls.mk` file setting defaults, and some example files for different kinds of builds.
+The process is configured using variables that can be changed, the `configs` folder has a `defaults.mk` file setting defaults, and some example files for different kinds of builds.
 
 It is possible to run a custom Benchmark configuration using:
 
@@ -65,17 +65,17 @@ $ make clean all CONFIG=configs/generated_multi.mk
 * Rubygems        (1.4, for Apache buildr)
 * GLIBC, GLIBCXX  (to build bazel)
 
-The whole setup is described [here](Design.md)
+The whole setup is described [here](Design.md).
 
 ## Configuring Benchmarks
 
-Custom configurations are loaded after the `defaults.mk` providing some convention over configuration. If present, a `custom.mk` in the project root will be loaded after `default.mk` but before specific configuration, allowing to override permanent defaults with your defaults.
+Custom configurations are loaded after the `defaults.mk` providing some convention over configuration. If present, a `custom.mk` in the project root will be loaded after `defaults.mk` but before specific configuration, allowing to override permanent defaults with your defaults.
 
 ## Motivation
 
 While Maven and Gradle are used by most Java projects in the wild, there are many alternatives to choose from. Comparing those is difficult. This project is a setup to run a buildprocess for java projects using multiple buildsystems.
 
-My main goal was to find out which buildsystem feature pays off under which circumstances (and under which it is irrelevant). As secondary independent goal is to get a feel for how much difference there is in performance for "realistic" isolated projects (like open-source projects). A comparison for huge mono-repo situations was not that interesting to me.
+My main goal was to find out which buildsystem feature pays off under which circumstances (and under which it is irrelevant). A secondary independent goal is to get a feel for how much difference there is in performance for "realistic" isolated projects (like open-source projects). A comparison for huge mono-repo situations was not that interesting to me.
 
 A single benchmark is driven by GNU make. The `Makefile` creates a `build` folder,
 containing a folder structure for benchmarks. Subfolders follow the pattern `<benchmarkname>/<buildsystemname>`. Into those folders, Java source files and buildsystem specific files will be copied / generated. Then the buildsystem is invoked inside that folder and the time until completion is measured.
@@ -108,7 +108,7 @@ See [CONTRIBUTING](CONTRIBUTING.md)
 
 JVM startup adds something like 3 seconds to the whole process. Several tools offer daemons to reduce this offset. Tools not written in JVM languages do not have this offset. A background process living on between builds can also cache other valuable data to make further runs startup faster. The startup time reduction however becomes only relevant at large scales.
 
-Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utilizing more than one CPU. Even with just one CPU, multithreaded execution can have a performance bonus. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtool will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
+Parallel task execution: On machines with multiple cores, it may be possible to reduce build time by utilizing more than one CPU. Even with just one CPU, multithreaded execution can have a performance bonus. However the build-time rarely is reduced by the number of CPUs. The overhead of finding out how to split tasks over several CPUs can eliminate benefits, and often there will be many dependencies that lead to tasks necessarily being build in sequence. Most buildtools will thus mostly offer to only build completely independent sub-modules in parallel. For single-module projects, no additional CPU is used then.
 Some tasks may even only work when not run in parallel, so using parallel features also increases maintenance effort.
 
 Compiler speed may differ for different compilers. The scala compiler and clojure compiler seemed slower than javac for compiling java sources.
@@ -159,7 +159,7 @@ Ant is still being used, but it's unclear what advantages it offers. Maybe simpl
 
 Leiningen and sbt are optimized (in usability) for Clojure and Scala respectively. If you only use Java, it probably does not pay off to use either of them, unless you wanted to learn / integrate those languages anyway.
 
-Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. Based on mailing list activity, it seems the project lost the interest of it's userbase.
+Buildr seems to be mostly similar to Gradle but written in Ruby, which offers some advantages and disadvantages. Based on mailing list activity, it seems the project lost the interest of its userbase.
 
 The Kotlin ecosystem also has a buildsystem called Kobalt, but it seemed not established enough to be considered in the benchmarks.
 

@@ -10,9 +10,4 @@ export TARGET_NAME=$(SOURCE_PROJECT)-$(SUBPROJECT_NUM)-$(FILE_NUM)
 export BUILDSYSTEMS=\
 gradle \
 maven \
-buildr \
-ant_ivy \
-buck \
 sbt \
-bazel \
-pants

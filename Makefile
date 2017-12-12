@@ -111,6 +111,13 @@ pants:pants$(PANTS_DEFAULT_VERSION)
 pants%: $(CONFIGURED_BUILD_ROOT)/pants%/src
 	$(MAKE) -C $(BUILDSYSTEMS_DIR)/pants $@
 
+.PHONY: fsbt
+fsbt:fsbt$(PANTS_DEFAULT_VERSION)
+
+.PHONY: fsbt%
+fsbt%: $(CONFIGURED_BUILD_ROOT)/fsbt%/src
+	$(MAKE) -C $(BUILDSYSTEMS_DIR)/fsbt $@
+
 
 .PHONY: versions
 versions:
